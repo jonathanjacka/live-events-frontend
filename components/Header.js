@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styles from '@/styles/Header.module.css';
+import { Search } from './Search';
 
 export const Header = () => {
   return (
@@ -9,6 +10,8 @@ export const Header = () => {
           <a>Live Events</a>
         </Link>
       </div>
+
+      <Search />
 
       <nav>
         <ul>
