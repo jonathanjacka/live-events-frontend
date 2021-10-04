@@ -7,15 +7,26 @@ import Link from 'next/link';
 import { API_URL } from '@/config/index';
 import styles from '@/styles/Form.module.css';
 
-export default function AddEventPage() {
+export async function getServerSideProps({ params: { id } }) {
+  const res = await fetch(`${API_URL}/events/${id}`);
+  const evt = await res.json();
+
+  return {
+    props: {
+      evt,
+    },
+  };
+}
+
+export default function EditEventPage({ evt }) {
   const [values, setValues] = useState({
-    name: '',
-    performers: '',
-    venue: '',
-    address: '',
-    date: '',
-    time: '',
-    description: '',
+    name: evt.name,
+    performers: evt.performers,
+    venue: evt.venue,
+    address: evt.address,
+    date: evt.date,
+    time: evt.time,
+    description: evt.description,
   });
 
   const router = useRouter();
@@ -45,16 +56,6 @@ export default function AddEventPage() {
         const evt = await res.json();
         router.push(`/events/${evt.slug}`);
       }
-
-      setValues({
-        name: '',
-        performers: '',
-        venue: '',
-        address: '',
-        date: '',
-        time: '',
-        description: '',
-      });
     }
   };
 
@@ -64,9 +65,9 @@ export default function AddEventPage() {
   };
 
   return (
-    <Layout title='Add New Event'>
+    <Layout title='Edit Event'>
       <Link href='/events'>{'< Go Back'}</Link>
-      <h1>Add Event</h1>
+      <h1>Edit Event</h1>
       <ToastContainer />
 
       <form className={styles.form} onSubmit={handleSubmit}>
@@ -147,7 +148,7 @@ export default function AddEventPage() {
           ></textarea>
         </div>
 
-        <input type='submit' value='Add Event' className='btn' />
+        <input type='submit' value='Update Event' className='btn' />
       </form>
     </Layout>
   );
