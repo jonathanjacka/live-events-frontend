@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { API_URL } from '@/config/index';
 import styles from '@/styles/Form.module.css';
 import formatDateForInput from '@/utils/formatDate';
+import Image from 'next/image';
+import { FaImage } from 'react-icons/fa';
 
 export async function getServerSideProps({ params: { id } }) {
   const res = await fetch(`${API_URL}/events/${id}`);
@@ -30,6 +32,10 @@ export default function EditEventPage({ evt }) {
     description: evt.description,
   });
 
+  const [imagePreview, setImagePreview] = useState(
+    evt.image && evt.image.formats.thumbnail.url
+  );
+
   const router = useRouter();
 
   const handleSubmit = async (event) => {
@@ -43,8 +49,8 @@ export default function EditEventPage({ evt }) {
     if (hasEmptyFields) {
       toast.error('Please fill in all fields!');
     } else {
-      const res = await fetch(`${API_URL}/events`, {
-        method: 'POST',
+      const res = await fetch(`${API_URL}/events/${evt.id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -151,6 +157,21 @@ export default function EditEventPage({ evt }) {
 
         <input type='submit' value='Update Event' className='btn' />
       </form>
+
+      <h2>Event Image</h2>
+      {imagePreview ? (
+        <Image src={imagePreview} height={100} width={170} />
+      ) : (
+        <div>
+          <p>No image uploaded</p>
+        </div>
+      )}
+
+      <div>
+        <button className='btn-secondary'>
+          <FaImage /> Set Image
+        </button>
+      </div>
     </Layout>
   );
 }
