@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { API_URL } from '@/config/index';
 import styles from '@/styles/Form.module.css';
+import formatDateForInput from '@/utils/formatDate';
 
 export async function getServerSideProps({ params: { id } }) {
   const res = await fetch(`${API_URL}/events/${id}`);
@@ -24,7 +25,7 @@ export default function EditEventPage({ evt }) {
     performers: evt.performers,
     venue: evt.venue,
     address: evt.address,
-    date: evt.date,
+    date: formatDateForInput(evt.date),
     time: evt.time,
     description: evt.description,
   });
