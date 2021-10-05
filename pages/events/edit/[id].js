@@ -10,6 +10,7 @@ import formatDateForInput from '@/utils/formatDate';
 import Image from 'next/image';
 import { FaImage } from 'react-icons/fa';
 import { Modal } from '@/components/Modal';
+import { ImageUpload } from '@/components/ImageUpload';
 
 export async function getServerSideProps({ params: { id } }) {
   const res = await fetch(`${API_URL}/events/${id}`);
@@ -72,6 +73,15 @@ export default function EditEventPage({ evt }) {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setValues({ ...values, [name]: value });
+  };
+
+  const imageUploaded = async () => {
+    const res = await fetch(`${API_URL}/events/${evt.id}`);
+    const data = await res.json();
+    console.log('Data Image: ', data.image);
+    setImagePreview(data.image.formats.thumbnail.url);
+    setShowModal(false);
+    toast.success('Image Upload Successful!');
   };
 
   return (
@@ -177,7 +187,7 @@ export default function EditEventPage({ evt }) {
       </div>
 
       <Modal show={showModal} onClose={() => setShowModal(false)}>
-        IMAGE UPLOAD
+        <ImageUpload evtId={evt.id} imageUploaded={imageUploaded} />
       </Modal>
     </Layout>
   );
