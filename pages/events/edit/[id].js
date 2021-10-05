@@ -9,6 +9,7 @@ import styles from '@/styles/Form.module.css';
 import formatDateForInput from '@/utils/formatDate';
 import Image from 'next/image';
 import { FaImage } from 'react-icons/fa';
+import { Modal } from '@/components/Modal';
 
 export async function getServerSideProps({ params: { id } }) {
   const res = await fetch(`${API_URL}/events/${id}`);
@@ -35,6 +36,8 @@ export default function EditEventPage({ evt }) {
   const [imagePreview, setImagePreview] = useState(
     evt.image && evt.image.formats.thumbnail.url
   );
+
+  const [showModal, setShowModal] = useState(false);
 
   const router = useRouter();
 
@@ -168,10 +171,14 @@ export default function EditEventPage({ evt }) {
       )}
 
       <div>
-        <button className='btn-secondary'>
+        <button className='btn-secondary' onClick={() => setShowModal(true)}>
           <FaImage /> Set Image
         </button>
       </div>
+
+      <Modal show={showModal} onClose={() => setShowModal(false)}>
+        IMAGE UPLOAD
+      </Modal>
     </Layout>
   );
 }
