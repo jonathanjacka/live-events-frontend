@@ -5,12 +5,15 @@ import { Layout } from '@/components/Layout';
 import { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
 import styles from '@/styles/AuthForm.module.css';
+import AuthContext from '@/context/AuthContext';
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  const { register, error } = useContext(AuthContext);
 
   //TODO: COMPLETE HANDLESUBMIT FUNCTION
   const handleSubmit = (event) => {
@@ -20,7 +23,7 @@ export default function RegisterPage() {
       toast.error('Passwords do not match!');
       return;
     }
-    console.log('Registration submitted:', { username, email, password });
+    register({ username, email, password });
   };
 
   return (

@@ -5,15 +5,17 @@ import { Layout } from '@/components/Layout';
 import { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
 import styles from '@/styles/AuthForm.module.css';
+import AuthContext from '@/context/AuthContext';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  //TODO: COMPLETE HANDLESUBMIT FUNCTION
+  const { login, error } = useContext(AuthContext);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('Form submitted:', { email, password });
+    login({ email, password });
   };
 
   return (
