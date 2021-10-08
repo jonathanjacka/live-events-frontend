@@ -12,9 +12,12 @@ import { FaImage } from 'react-icons/fa';
 import { Modal } from '@/components/Modal';
 import { ImageUpload } from '@/components/ImageUpload';
 
-export async function getServerSideProps({ params: { id } }) {
+export async function getServerSideProps({ params: { id }, req }) {
   const res = await fetch(`${API_URL}/events/${id}`);
   const evt = await res.json();
+
+  //shows cookie has been set correctly - remove this
+  console.log(req.headers.cookie);
 
   return {
     props: {
