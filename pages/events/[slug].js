@@ -3,22 +3,10 @@ import { API_URL } from '@/config/index';
 import styles from '@/styles/EventPage.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaPencilAlt, FaTimes } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
-
-// export async function getServerSideProps({ query: { slug } }) {
-//   console.log(slug);
-
-//   const res = await fetch(`${API_URL}/api/events/${slug}`);
-//   const events = await res.json();
-//   return {
-//     props: {
-//       evt: events[0],
-//     },
-//   };
-// }
+import EventMap from '@/components/EventMap';
 
 export async function getStaticPaths() {
   const res = await fetch(`${API_URL}/events`);
@@ -70,6 +58,8 @@ export default function EventPage({ evt }) {
         <p>{evt.description}</p>
         <h3>Venue: {evt.venue}</h3>
         <p>{evt.address}</p>
+
+        <EventMap evt={evt} />
 
         <Link href='/events'>
           <a className={styles.back}>{'< '}Go Back</a>
