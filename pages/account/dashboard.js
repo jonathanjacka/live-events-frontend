@@ -3,6 +3,7 @@ import { DashboardEvent } from '@/components/DashboardEvent';
 import { API_URL } from '@/config/index';
 import { parseCookies } from '@/utils/parseCookies';
 import styles from '@/styles/Dashboard.module.css';
+import { useState } from 'react';
 
 export async function getServerSideProps({ req }) {
   const { token } = parseCookies(req);
@@ -19,13 +20,31 @@ export async function getServerSideProps({ req }) {
   return {
     props: {
       events,
+      token,
     },
   };
 }
 
-export default function DashboardPage({ events }) {
-  const deleteEvent = (id) => {
-    console.log(`DELETE ME: ${id}`);
+export default function DashboardPage({ events, token }) {
+  const [evts, setEvts] = useState(events);
+
+  const deleteEvent = async (id) => {
+    if (confirm('Are you sure you want to delete this event?')) {
+      const res = await fetch(`${API_URL}/events/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(`Error: ${data.message}`);
+      } else {
+        const newEvts = evts.filter((evt) => evt.id !== id);
+        setEvts(newEvts);
+      }
+    }
   };
 
   return (
@@ -34,8 +53,8 @@ export default function DashboardPage({ events }) {
         <h1>Dashboard</h1>
         <h3>My Events</h3>
 
-        {events ? (
-          events.map((evt) => (
+        {evts ? (
+          evts.map((evt) => (
             <DashboardEvent key={evt.id} evt={evt} handleDelete={deleteEvent} />
           ))
         ) : (

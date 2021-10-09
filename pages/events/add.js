@@ -6,8 +6,18 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { API_URL } from '@/config/index';
 import styles from '@/styles/Form.module.css';
+import { parseCookies } from '@/utils/parseCookies';
 
-export default function AddEventPage() {
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  return {
+    props: {
+      token,
+    },
+  };
+}
+
+export default function AddEventPage({ token }) {
   const [values, setValues] = useState({
     name: '',
     performers: '',
@@ -35,6 +45,7 @@ export default function AddEventPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(values),
       });

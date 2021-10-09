@@ -11,22 +11,23 @@ import Image from 'next/image';
 import { FaImage } from 'react-icons/fa';
 import { Modal } from '@/components/Modal';
 import { ImageUpload } from '@/components/ImageUpload';
+import { parseCookies } from '@/utils/parseCookies';
 
 export async function getServerSideProps({ params: { id }, req }) {
+  const { token } = parseCookies(req);
+
   const res = await fetch(`${API_URL}/events/${id}`);
   const evt = await res.json();
-
-  //shows cookie has been set correctly - remove this
-  console.log(req.headers.cookie);
 
   return {
     props: {
       evt,
+      token,
     },
   };
 }
 
-export default function EditEventPage({ evt }) {
+export default function EditEventPage({ evt, token }) {
   const [values, setValues] = useState({
     name: evt.name,
     performers: evt.performers,
@@ -60,6 +61,7 @@ export default function EditEventPage({ evt }) {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(values),
       });
@@ -190,7 +192,11 @@ export default function EditEventPage({ evt }) {
       </div>
 
       <Modal show={showModal} onClose={() => setShowModal(false)}>
-        <ImageUpload evtId={evt.id} imageUploaded={imageUploaded} />
+        <ImageUpload
+          evtId={evt.id}
+          imageUploaded={imageUploaded}
+          token={token}
+        />
       </Modal>
     </Layout>
   );
