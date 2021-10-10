@@ -1,13 +1,41 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Live Events
 
-## Getting Started
+Frontend for Live Events application, which allows for the basic creating, editing, and viewing of different live music events in a particular area.
+
+See the project live [here](https://live-events.jonathanjacka.com/).
+
+## Acknowledgements
+
+Its idea is from project based on the course [Next.js: Dev to Deployment](https://www.udemy.com/course/nextjs-dev-to-deployment/) by Brad Traversy. This course will also helpfully walk you through some of the more complicated steps of getting the project deployed with Heroku (backend) and Vercel (frontend).
+
+## Usage
+
+### Install Dependencies
+
+```
+npm install
+```
+
+### Run Application
+
+```
+# Run in developer mode
+npm run dev
+
+# Run in production mode
+npm start
+```
+
+## From create-next-app
+
+This project was created in conjunction with [live-events backend](https://github.com/jonathanjacka/live-events-backend), which uses Strapi.
+
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
