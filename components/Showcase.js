@@ -3,8 +3,8 @@ import styles from '@/styles/Showcase.module.css';
 export const Showcase = () => {
   return (
     <div className={styles.showcase}>
-      <h1>Welcome To The Jol!</h1>
-      <h2>Find the Kiffest Live Events!</h2>
+      <h1>LIVE EVENTS</h1>
+      <h2>find, share, and celebrate the latest music, events, and parties</h2>
     </div>
   );
 };
