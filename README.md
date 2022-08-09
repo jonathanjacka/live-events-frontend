@@ -2,7 +2,7 @@
 
 Frontend for Live Events application, which allows for the basic creating, editing, and viewing of different live music events in a particular area.
 
-See the project live [here](https://live-events.jonathanjacka.com/).
+See the project live [here](https://live-events.vercel.app/).
 
 ## Acknowledgements
 
